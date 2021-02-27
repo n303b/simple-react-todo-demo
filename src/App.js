@@ -41,8 +41,8 @@ function App() {
   const handleAddItem = useCallback(() => {
     if (!inputVal) return;
     setList((prevList) => [
-      ...prevList,
       { id: prevList.length, text: inputVal, type: TODO_ITEM_TYPE.ACTIVE },
+      ...prevList,
     ]);
     setInputVal("");
   }, [inputVal]);
