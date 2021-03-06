@@ -1,33 +1,11 @@
 import { useCallback, useState, useMemo } from "react";
-import classnames from "classnames";
+import Header from "./components/Header";
+import List from "./components/List";
+import Footer from "./components/Footer";
+
+import { TODO_ITEM_TYPE, MENU_TYPE } from "./common/constants";
 
 import "./App.css";
-
-const TODO_ITEM_TYPE = {
-  ACTIVE: "ACTIVE",
-  COMPLETE: "COMPLETE",
-};
-
-const MENU_TYPE = {
-  ALL: "ALL",
-  ACTIVE: "ACTIVE",
-  COMPLETE: "COMPLETE",
-};
-
-const menuList = [
-  {
-    text: "All",
-    type: MENU_TYPE.ALL,
-  },
-  {
-    text: "Active",
-    type: MENU_TYPE.ACTIVE,
-  },
-  {
-    text: "Complete",
-    type: MENU_TYPE.COMPLETE,
-  },
-];
 
 function App() {
   const [list, setList] = useState([]);
@@ -95,44 +73,17 @@ function App() {
 
   return (
     <div className="App">
-      <header className="header">
-        <input
-          type="text"
-          value={inputVal}
-          onKeyDown={handleKeyDown}
-          onChange={handleInputChange}
-          placeholder="请输入新添加项"
-        />
-      </header>
-      <ul>
-        {listBySorted.map((item) => (
-          <li
-            key={item.id}
-            data-id={item.id}
-            className={classnames("todo-item", {
-              complete: item.type === TODO_ITEM_TYPE.COMPLETE,
-            })}
-            onClick={toggleItem}
-          >
-            <span className="todo-item-text">{item.text}</span>
-            <button onClick={deleteItem}>X</button>
-          </li>
-        ))}
-      </ul>
-      <footer>
-        {menuList.map((item) => (
-          <div
-            data-type={item.type}
-            className={classnames("menu-item", {
-              active: sortType === item.type,
-            })}
-            key={item.type}
-            onClick={handleMenuClick}
-          >
-            {item.text}
-          </div>
-        ))}
-      </footer>
+      <Header
+        inputVal={inputVal}
+        handleKeyDown={handleKeyDown}
+        handleInputChange={handleInputChange}
+      />
+      <List
+        list={listBySorted}
+        deleteItem={deleteItem}
+        toggleItem={toggleItem}
+      />
+      <Footer sortType={sortType} handleMenuClick={handleMenuClick} />
     </div>
   );
 }
